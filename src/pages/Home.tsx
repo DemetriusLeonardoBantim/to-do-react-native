@@ -9,19 +9,26 @@ export function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   function handleAddTask(newTaskTitle: string) {
+    if(!newTaskTitle) return
+
     let newTaskObject =  {
+      id: new Date().getTime(),
       title: newTaskTitle,
-      done:false,
-      id: Math.floor(Math.random() * 1000)
+      done:false
     }
+
     setTasks(oldTask => [...oldTask, newTaskObject])
   }
 
   function handleToggleTaskDone(id: number) {
-    const doneTask = tasks.map(task => task.id === id ? {
-      ...task, done: !task.done
-    } : task)
-    setTasks(doneTask)
+    const updatedTasks = tasks.map(task => ({...task}))
+    
+    const foundItem = updatedTasks.find(item => item.id === id)
+
+    if(!foundItem) return
+
+    foundItem.done = !foundItem.done
+    setTasks(updatedTasks)
   }
  
   function handleRemoveTask(id: number) {
