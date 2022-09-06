@@ -10,15 +10,17 @@ export interface Task {
   id: number;
   title: string;
   done: boolean;
+  edit: boolean;
 }
 
 interface TasksListProps {
   tasks: Task[];
   toggleTaskDone: (id: number) => void;
   removeTask: (id: number) => void;
+  editTask: (id: number) => void;
 }
 
-export function TasksList({ tasks, toggleTaskDone, removeTask }: TasksListProps) {
+export function TasksList({ tasks, toggleTaskDone, removeTask, editTask }: TasksListProps) {
   return (
     <FlatList
       data={tasks}
@@ -60,9 +62,16 @@ export function TasksList({ tasks, toggleTaskDone, removeTask }: TasksListProps)
 
             <TouchableOpacity
               testID={`trash-${index}`}
-              style={{ paddingHorizontal: 24 }}
+              style={styles.actionsTask}
               onPress={() => removeTask(item.id)}
             >
+              <Icon
+                name="edit"
+                size={17.5}
+                color="#B2B2B2"
+                style={{marginRight:12}}
+                onPress={() => editTask(item.id)}
+              />
               <Image source={trashIcon} />
             </TouchableOpacity>
           </ItemWrapper>
@@ -84,6 +93,11 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  actionsTask:{
+    flexDirection:'row',
+    paddingHorizontal: 24,
+    alignItems:'center',
   },
   taskMarker: {
     height: 16,

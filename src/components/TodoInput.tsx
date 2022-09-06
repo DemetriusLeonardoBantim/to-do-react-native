@@ -29,6 +29,7 @@ export function TodoInput({ addTask }: TodoInputProps) {
         value={task}
         onChangeText={(event) => setTask(event)}
         onSubmitEditing={handleAddNewTask}
+        
       />
 
       <TouchableOpacity

@@ -10,14 +10,24 @@ export function Home() {
 
   function handleAddTask(newTaskTitle: string) {
     if(!newTaskTitle) return
-
     let newTaskObject =  {
       id: new Date().getTime(),
       title: newTaskTitle,
-      done:false
+      done:false,
+      edit:false
     }
-
     setTasks(oldTask => [...oldTask, newTaskObject])
+  }
+
+  function handleEditTask(id: number) { 
+    const updatedTasks = tasks.map(task => ({...task}))
+    const foundItem = updatedTasks.find(item => item.id === id)
+    
+    if(!foundItem) return
+  
+    foundItem.edit = !foundItem.edit
+    console.log(updatedTasks)
+    setTasks(updatedTasks)
   }
 
   function handleToggleTaskDone(id: number) {
@@ -43,9 +53,10 @@ export function Home() {
       <TodoInput addTask={handleAddTask} />
 
       <TasksList 
-        tasks={tasks} 
-        toggleTaskDone={handleToggleTaskDone}
-        removeTask={handleRemoveTask} 
+        tasks = {tasks} 
+        toggleTaskDone = {handleToggleTaskDone}
+        removeTask = {handleRemoveTask} 
+        editTask = {handleEditTask}
       />
     </View>
   )
